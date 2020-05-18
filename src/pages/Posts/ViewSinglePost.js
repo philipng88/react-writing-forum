@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import ReactMarkdown from "react-markdown";
 import axios from "axios";
 import Page from "../../components/Page";
 import formatDate from "../../util/formatDate";
@@ -76,7 +77,18 @@ const ViewSinglePost = () => {
         on {formatDate(createdDate)}
       </p>
       <div className="body-content">
-        <p>{body}</p>
+        <ReactMarkdown
+          source={body}
+          allowedTypes={[
+            "paragraph",
+            "strong",
+            "emphasis",
+            "text",
+            "heading",
+            "list",
+            "listItem",
+          ]}
+        />
       </div>
       <ReactTooltip id="editIcon" effect="solid" />
       <ReactTooltip id="deleteIcon" effect="solid" />

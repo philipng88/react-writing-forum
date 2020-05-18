@@ -32,9 +32,7 @@ const CreatePost = (props) => {
     <Page title="Create New Post">
       <Form onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label htmlFor="post-title" className="text-muted mb-1">
-            <small>Title</small>
-          </Form.Label>
+          <Form.Label htmlFor="post-title">Title</Form.Label>
           <Form.Control
             onChange={(event) => setTitle(event.target.value)}
             type="text"
@@ -45,10 +43,8 @@ const CreatePost = (props) => {
             className="form-control-title"
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="post-body" className="text-muted mb-1 d-block">
-            <small>Post</small>
-          </Form.Label>
+        <Form.Group className="mb-0">
+          <Form.Label htmlFor="post-body">Post</Form.Label>
           <Form.Control
             onChange={(event) => setBody(event.target.value)}
             as="textarea"
@@ -57,7 +53,18 @@ const CreatePost = (props) => {
             className="body-content tall-textarea"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <small className="form-text">
+          <span className="font-weight-bold font-italic">Tip:</span> You can use{" "}
+          <a
+            href="https://www.markdownguide.org/cheat-sheet/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            markdown
+          </a>{" "}
+          in your post
+        </small>
+        <Button variant="primary" type="submit" className="d-block mt-3">
           Save New Post
         </Button>
       </Form>
