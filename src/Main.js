@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import axios from "axios";
-import Favicon from "react-favicon";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer";
@@ -15,6 +14,7 @@ import About from "./pages/About";
 import Terms from "./pages/Terms";
 import CreatePost from "./pages/Posts/CreatePost";
 import ViewSinglePost from "./pages/Posts/ViewSinglePost";
+import Profile from "./pages/Profile/Profile";
 
 import StateContext from "./context/StateContext";
 import DispatchContext from "./context/DispatchContext";
@@ -73,6 +73,9 @@ const Main = () => {
             <Route exact path="/">
               {state.loggedIn ? <Home /> : <HomeGuest />}
             </Route>
+            <Route path="/profile/:username">
+              <Profile />
+            </Route>
             <Route path="/post/:id">
               <ViewSinglePost />
             </Route>
@@ -93,11 +96,5 @@ const Main = () => {
   );
 };
 
-ReactDOM.render(
-  <>
-    <Favicon url="./images/quill.png" />
-    <Main />
-  </>,
-  document.getElementById("app")
-);
+ReactDOM.render(<Main />, document.getElementById("app"));
 if (module.hot) module.hot.accept();

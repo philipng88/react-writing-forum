@@ -38,9 +38,14 @@ const HeaderLoggedIn = (props) => {
           <i className="fas fa-comment"></i>
           <span className="chat-count-badge text-white"> </span>
         </span>
-        <a href="#" className="mr-2" data-tip={username} data-for="avatarIcon">
+        <Link
+          to={`/profile/${username}`}
+          className="mr-2"
+          data-tip={`My Profile (${username})`}
+          data-for="avatarIcon"
+        >
           <img className="small-header-avatar" src={avatar} />
-        </a>
+        </Link>
         <Link className="btn btn-sm btn-success mr-2" to="/create-post">
           Create Post
         </Link>

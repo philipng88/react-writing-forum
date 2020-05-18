@@ -1,12 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import axios from "axios";
 import Page from "../../components/Page";
+import formatDate from "../../util/formatDate";
+import LoadingIcon from "../../components/LoadingIcon";
 
 const ViewSinglePost = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [post, setPost] = useState();
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(`/post/${id}`);
+        setPost(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    };
+    fetchPost();
+  }, []);
+
+  if (isLoading)
+    return (
+      <Page title="...">
+        <LoadingIcon />
+      </Page>
+    );
+
+  const {
+    createdDate,
+    title,
+    author: { avatar, username },
+    body,
+  } = post;
+
   return (
-    <Page>
+    <Page title={title}>
       <div className="d-flex justify-content-between">
-        <h2>Example Post Title</h2>
+        <h2>{title}</h2>
         <span className="pt-2">
           <a
             href="#"
@@ -27,30 +62,17 @@ const ViewSinglePost = () => {
         </span>
       </div>
       <p className="text-muted small mb-4">
-        <a href="#">
-          <img
-            src="https://randomuser.me/api/portraits/lego/1.jpg"
-            alt="Avatar"
-            className="avatar-tiny"
-          />
-        </a>
-        Posted by <a href="#">brad</a> on 2/10/2020
+        <Link to={`/profile/${username}`}>
+          <img src={avatar} alt={username} className="avatar-tiny" />
+        </Link>
+        Posted by{" "}
+        <Link to={`/profile/${username}`} className="text-decoration-none">
+          {username}
+        </Link>{" "}
+        on {formatDate(createdDate)}
       </p>
       <div className="body-content">
-        <p>
-          Lorem ipsum dolor sit <strong>example</strong> post adipisicing elit.
-          Iure ea at esse, tempore qui possimus soluta impedit natus voluptate,
-          sapiente saepe modi est pariatur. Aut voluptatibus aspernatur fugiat
-          asperiores at.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae quod
-          asperiores corrupti omnis qui, placeat neque modi, dignissimos, ab
-          exercitationem eligendi culpa explicabo nulla tempora rem? Lorem ipsum
-          dolor sit amet consectetur adipisicing elit. Iure ea at esse, tempore
-          qui possimus soluta impedit natus voluptate, sapiente saepe modi est
-          pariatur. Aut voluptatibus aspernatur fugiat asperiores at.
-        </p>
+        <p>{body}</p>
       </div>
       <ReactTooltip id="editIcon" effect="solid" />
       <ReactTooltip id="deleteIcon" effect="solid" />
