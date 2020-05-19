@@ -18,11 +18,3 @@
   font-size: 0.6rem;
   font-weight: bold;
 }
-
-.delete-post-button {
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-}

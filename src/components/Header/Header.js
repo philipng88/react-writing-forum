@@ -14,7 +14,7 @@ const Header = () => {
         <h4 className="my-0 mr-md-auto font-weight-normal">
           <Link to="/" className="text-white text-decoration-none">
             <img
-              src="../images/quill.png"
+              src="/images/quill.png"
               alt="Logo"
               className="align-baseline"
             />{" "}

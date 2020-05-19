@@ -7,12 +7,14 @@ import axios from "axios";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer";
 import FlashMessages from "./components/FlashMessages";
+import NotFound from "./components/NotFound";
 
 import Home from "./pages/Home/Home";
 import HomeGuest from "./pages/Home/Guest";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
 import CreatePost from "./pages/Posts/CreatePost";
+import EditPost from "./pages/Posts/EditPost";
 import ViewSinglePost from "./pages/Posts/ViewSinglePost";
 import Profile from "./pages/Profile/Profile";
 
@@ -76,8 +78,11 @@ const Main = () => {
             <Route path="/profile/:username">
               <Profile />
             </Route>
-            <Route path="/post/:id">
+            <Route exact path="/post/:id">
               <ViewSinglePost />
+            </Route>
+            <Route exact path="/post/:id/edit">
+              <EditPost />
             </Route>
             <Route path="/create-post">
               <CreatePost />
@@ -87,6 +92,9 @@ const Main = () => {
             </Route>
             <Route path="/terms">
               <Terms />
+            </Route>
+            <Route>
+              <NotFound />
             </Route>
           </Switch>
           <Footer />

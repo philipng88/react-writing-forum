@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Page from "../../components/Page";
 import DispatchContext from "../../context/DispatchContext";
 import StateContext from "../../context/StateContext";
+import MarkdownLink from "../../components/MarkdownLink";
 
 const CreatePost = (props) => {
   const [title, setTitle] = useState();
@@ -41,6 +42,7 @@ const CreatePost = (props) => {
             autoFocus
             autoComplete="off"
             className="form-control-title"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-0">
@@ -51,22 +53,18 @@ const CreatePost = (props) => {
             name="body"
             id="post-body"
             className="body-content tall-textarea"
+            required
           />
         </Form.Group>
-        <small className="form-text">
-          <span className="font-weight-bold font-italic">Tip:</span> You can use{" "}
-          <a
-            href="https://www.markdownguide.org/cheat-sheet/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            markdown
-          </a>{" "}
-          in your post
-        </small>
-        <Button variant="primary" type="submit" className="d-block mt-3">
-          Save New Post
-        </Button>
+        <MarkdownLink />
+        <div className="d-block mt-3">
+          <Link className="btn btn-outline-danger mr-2" to="/">
+            Cancel
+          </Link>
+          <Button variant="primary" type="submit">
+            Save New Post
+          </Button>
+        </div>
       </Form>
     </Page>
   );
