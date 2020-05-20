@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 import { useImmerReducer } from "use-immer";
 import axios from "axios";
 
@@ -8,6 +9,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer";
 import FlashMessages from "./components/FlashMessages";
 import NotFound from "./components/NotFound";
+import Search from "./components/Search";
 
 import Home from "./pages/Home/Home";
 import HomeGuest from "./pages/Home/Guest";
@@ -32,6 +34,7 @@ const Main = () => {
       username: localStorage.getItem("writing-forum-username"),
       avatar: localStorage.getItem("writing-forum-avatar"),
     },
+    isSearchOpen: false,
   };
 
   const reducer = (draft, action) => {
@@ -46,6 +49,12 @@ const Main = () => {
       case "flashMessage":
         draft.flashMessages.push(action.value);
         break;
+      case "openSearch":
+        draft.isSearchOpen = true;
+        break;
+      case "closeSearch":
+        draft.isSearchOpen = false;
+        break;
       default:
         throw new Error("Incorrect action type");
     }
@@ -53,27 +62,34 @@ const Main = () => {
 
   const [state, dispatch] = useImmerReducer(reducer, initialState);
 
+  const {
+    loggedIn,
+    flashMessages,
+    user: { token, username, avatar },
+    isSearchOpen,
+  } = state;
+
   useEffect(() => {
-    if (state.loggedIn) {
-      localStorage.setItem("writing-forum-token", state.user.token);
-      localStorage.setItem("writing-forum-username", state.user.username);
-      localStorage.setItem("writing-forum-avatar", state.user.avatar);
+    if (loggedIn) {
+      localStorage.setItem("writing-forum-token", token);
+      localStorage.setItem("writing-forum-username", username);
+      localStorage.setItem("writing-forum-avatar", avatar);
     } else {
       localStorage.removeItem("writing-forum-token");
       localStorage.removeItem("writing-forum-username");
       localStorage.removeItem("writing-forum-avatar");
     }
-  }, [state.loggedIn]);
+  }, [loggedIn]);
 
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
         <Router>
-          <FlashMessages messages={state.flashMessages} />
+          <FlashMessages messages={flashMessages} />
           <Header />
           <Switch>
             <Route exact path="/">
-              {state.loggedIn ? <Home /> : <HomeGuest />}
+              {loggedIn ? <Home /> : <HomeGuest />}
             </Route>
             <Route path="/profile/:username">
               <Profile />
@@ -97,6 +113,14 @@ const Main = () => {
               <NotFound />
             </Route>
           </Switch>
+          <CSSTransition
+            timeout={330}
+            in={isSearchOpen}
+            classNames="search-overlay"
+            unmountOnExit
+          >
+            <Search />
+          </CSSTransition>
           <Footer />
         </Router>
       </DispatchContext.Provider>

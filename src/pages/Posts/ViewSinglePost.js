@@ -32,7 +32,7 @@ const ViewSinglePost = (props) => {
     };
     fetchPost();
     return () => cancelRequest.cancel();
-  }, []);
+  }, [id]);
 
   if (!isLoading && !post) return <NotFound />;
 
