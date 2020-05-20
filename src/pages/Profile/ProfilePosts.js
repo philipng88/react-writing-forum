@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
-import formatDate from "../../util/formatDate";
+import { useParams } from "react-router-dom";
 import LoadingIcon from "../../components/LoadingIcon";
+import Post from "../../components/Post";
 
 const ProfilePosts = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,22 +29,9 @@ const ProfilePosts = () => {
 
   const content = posts.length ? (
     <ListGroup>
-      {posts.map((post) => {
-        const { _id: id, title, createdDate } = post;
-        return (
-          <Link
-            className="list-group-item list-group-item-action"
-            to={`/post/${id}`}
-            key={id}
-          >
-            <span className="font-weight-normal">{title}</span>
-            <span className="text-muted small">
-              {" "}
-              on {formatDate(createdDate)}
-            </span>
-          </Link>
-        );
-      })}
+      {posts.map((post) => (
+        <Post post={post} key={post._id} noImage noAuthor />
+      ))}
     </ListGroup>
   ) : (
     <p className="h5 font-italic">No posts...</p>

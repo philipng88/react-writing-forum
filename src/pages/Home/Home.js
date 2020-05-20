@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { useImmer } from "use-immer";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
 import Page from "../../components/Page";
 import StateContext from "../../context/StateContext";
 import LoadingIcon from "../../components/LoadingIcon";
-import formatDate from "../../util/formatDate";
+import Post from "../../components/Post";
 
 const Home = () => {
   const appState = useContext(StateContext);
@@ -50,21 +49,9 @@ const Home = () => {
             the latest from those you follow
           </h2>
           <ListGroup>
-            {feed.map(
-              ({ _id, author: { username, avatar }, title, createdDate }) => (
-                <Link
-                  key={_id}
-                  to={`/post/${_id}`}
-                  className="list-group-item list-group-item-action"
-                >
-                  <img className="avatar-tiny" src={avatar} alt={username} />
-                  <span className="font-weight-normal">{title}</span>{" "}
-                  <span className="text-muted small">
-                    by {username} on {formatDate(createdDate)}
-                  </span>
-                </Link>
-              )
-            )}
+            {feed.map((post) => (
+              <Post post={post} key={post._id} />
+            ))}
           </ListGroup>
         </>
       ) : (

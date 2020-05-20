@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useImmer } from "use-immer";
 import classNames from "classnames";
 import Container from "react-bootstrap/Container";
@@ -7,7 +6,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Alert from "react-bootstrap/Alert";
 import DispatchContext from "../context/DispatchContext";
 import axios from "axios";
-import formatDate from "../util/formatDate";
+import Post from "./Post";
 
 const Search = () => {
   const appDispatch = useContext(DispatchContext);
@@ -122,32 +121,13 @@ const Search = () => {
                   <strong>Search Results</strong> ({results.length}{" "}
                   {results.length > 1 ? "items" : "item"} found)
                 </ListGroup.Item>
-                {results.map((result) => {
-                  const {
-                    _id,
-                    author: { username, avatar },
-                    title,
-                    createdDate,
-                  } = result;
-                  return (
-                    <Link
-                      key={_id}
-                      to={`/post/${_id}`}
-                      className="list-group-item list-group-item-action"
-                      onClick={() => appDispatch({ type: "closeSearch" })}
-                    >
-                      <img
-                        className="avatar-tiny"
-                        src={avatar}
-                        alt={username}
-                      />
-                      <span className="font-weight-normal">{title}</span>{" "}
-                      <span className="text-muted small">
-                        by {username} on {formatDate(createdDate)}
-                      </span>
-                    </Link>
-                  );
-                })}
+                {results.map((result) => (
+                  <Post
+                    post={result}
+                    key={result._id}
+                    onClick={() => appDispatch({ type: "closeSearch" })}
+                  />
+                ))}
               </ListGroup>
             ) : (
               <Alert
