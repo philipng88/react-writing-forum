@@ -25,26 +25,19 @@ const ProfilePosts = () => {
     };
     fetchPosts();
     return () => cancelRequest.cancel();
-  }, []);
+  }, [username]);
 
-  return !isLoading ? (
+  const content = posts.length ? (
     <ListGroup>
       {posts.map((post) => {
-        const {
-          _id: id,
-          author: { avatar, username },
-          title,
-          createdDate,
-        } = post;
-
+        const { _id: id, title, createdDate } = post;
         return (
           <Link
             className="list-group-item list-group-item-action"
             to={`/post/${id}`}
             key={id}
           >
-            <img src={avatar} alt={username} className="avatar-tiny" />
-            <span style={{ fontWeight: "500" }}>{title}</span>
+            <span className="font-weight-normal">{title}</span>
             <span className="text-muted small">
               {" "}
               on {formatDate(createdDate)}
@@ -54,8 +47,10 @@ const ProfilePosts = () => {
       })}
     </ListGroup>
   ) : (
-    <LoadingIcon />
+    <p className="h5 font-italic">No posts...</p>
   );
+
+  return !isLoading ? content : <LoadingIcon />;
 };
 
 export default ProfilePosts;
