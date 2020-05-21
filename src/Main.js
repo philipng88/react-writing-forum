@@ -96,6 +96,32 @@ const Main = () => {
     }
   }, [loggedIn]);
 
+  useEffect(() => {
+    if (loggedIn) {
+      const cancelRequest = axios.CancelToken.source();
+      const checkToken = async () => {
+        try {
+          const response = await axios.post(
+            "/checkToken",
+            { token },
+            { cancelToken: cancelRequest.token }
+          );
+          if (!response.data) {
+            dispatch({ type: "logout" });
+            dispatch({
+              type: "flashMessage",
+              value: "Your token has expired. Please log in again.",
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      checkToken();
+      return () => cancelRequest.cancel();
+    }
+  }, []);
+
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>

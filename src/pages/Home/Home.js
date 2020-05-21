@@ -34,7 +34,7 @@ const Home = () => {
           draft.feed = response.data;
         });
       } catch (error) {
-        console.log(error.response.data);
+        console.log(error);
       }
     };
     fetchData();

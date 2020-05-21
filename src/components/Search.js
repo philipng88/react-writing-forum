@@ -68,7 +68,6 @@ const Search = () => {
       fetchResults();
       return () => cancelRequest.cancel();
     }
-    return () => {};
   }, [requestCount]);
 
   const handleInput = (event) => {
