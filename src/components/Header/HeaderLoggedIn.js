@@ -9,21 +9,8 @@ import StateContext from "../../context/StateContext";
 
 const HeaderIcon = styled.span`
   cursor: pointer;
-  position: relative;
   top: 3px;
   margin-right: 0.75rem;
-  color: #fff;
-`;
-
-const ChatCountBadge = styled.span`
-  text-align: center;
-  position: absolute;
-  top: 2px;
-  left: 0px;
-  width: 16px;
-  font-size: 0.6rem;
-  font-weight: bold;
-  color: #fff;
 `;
 
 const HeaderLoggedIn = (props) => {
@@ -37,21 +24,34 @@ const HeaderLoggedIn = (props) => {
 
   const {
     user: { username, avatar },
+    unreadChatCount,
   } = appState;
 
   return (
     <div className="flex-row my-3 my-md-0">
       <HeaderIcon
         onClick={() => appDispatch({ type: "openSearch" })}
+        className="position-relative text-white"
         data-tip="Search"
         data-for="searchIcon"
       >
         <i className="fas fa-search"></i>
       </HeaderIcon>
       <ReactTooltip id="searchIcon" place="bottom" />
-      <HeaderIcon data-tip="Chat" data-for="chatIcon">
+      <HeaderIcon
+        onClick={() => appDispatch({ type: "toggleChat" })}
+        className={`position-relative ${
+          unreadChatCount ? "text-danger" : "text-white"
+        }`}
+        data-tip="Chat"
+        data-for="chatIcon"
+      >
         <i className="fas fa-comment"></i>
-        <ChatCountBadge />
+        {Boolean(unreadChatCount) && (
+          <span className="chat-count-badge text-center position-absolute font-weight-normal text-white">
+            {unreadChatCount < 10 ? unreadChatCount : "9+"}
+          </span>
+        )}
       </HeaderIcon>
       <ReactTooltip id="chatIcon" place="bottom" />
       <Link

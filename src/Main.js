@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import FlashMessages from "./components/FlashMessages";
 import NotFound from "./components/NotFound";
 import Search from "./components/Search";
+import Chat from "./components/Chat";
 
 import Home from "./pages/Home/Home";
 import HomeGuest from "./pages/Home/Guest";
@@ -35,6 +36,8 @@ const Main = () => {
       avatar: localStorage.getItem("writing-forum-avatar"),
     },
     isSearchOpen: false,
+    isChatOpen: false,
+    unreadChatCount: 0,
   };
 
   const reducer = (draft, action) => {
@@ -54,6 +57,18 @@ const Main = () => {
         break;
       case "closeSearch":
         draft.isSearchOpen = false;
+        break;
+      case "toggleChat":
+        draft.isChatOpen = !draft.isChatOpen;
+        break;
+      case "closeChat":
+        draft.isChatOpen = false;
+        break;
+      case "incrementUnreadChatCount":
+        draft.unreadChatCount++;
+        break;
+      case "clearUnreadChatCount":
+        draft.unreadChatCount = 0;
         break;
       default:
         throw new Error("Incorrect action type");
@@ -121,6 +136,7 @@ const Main = () => {
           >
             <Search />
           </CSSTransition>
+          <Chat />
           <Footer />
         </Router>
       </DispatchContext.Provider>
