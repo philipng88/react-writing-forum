@@ -18,9 +18,15 @@ const HeaderLoggedOut = () => {
         username,
         password,
       });
-      response.data
-        ? appDispatch({ type: "login", data: response.data })
-        : console.log("Incorrect username and/or password");
+      if (response.data) {
+        appDispatch({ type: "login", data: response.data });
+        appDispatch({ type: "flashMessage", value: "Successfully logged in" });
+      } else {
+        appDispatch({
+          type: "flashMessage",
+          value: "Incorrect username and/or password",
+        });
+      }
     } catch (error) {
       console.log(error.response.data);
     }
