@@ -13,13 +13,14 @@ const HeaderIcon = styled.span`
   margin-right: 0.75rem;
 `;
 
-const HeaderLoggedIn = () => {
+const HeaderLoggedIn = (props) => {
   const appDispatch = useContext(DispatchContext);
   const appState = useContext(StateContext);
 
   const handleLogout = () => {
     appDispatch({ type: "logout" });
     appDispatch({ type: "flashMessage", value: "Successfully logged out" });
+    props.history.push("/");
   };
 
   const {
