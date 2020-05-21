@@ -22,7 +22,7 @@ const Post = (props) => {
       onClick={onClick}
     >
       {!noImage && <img className="avatar-tiny" src={avatar} alt={username} />}
-      <span className="font-weight-normal">{title}</span>{" "}
+      <strong>{title}</strong>{" "}
       <span className="text-muted small">
         {!noAuthor && <span>by {username}</span>} on {formatDate(createdDate)}
       </span>

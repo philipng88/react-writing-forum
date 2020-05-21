@@ -57,8 +57,7 @@ const Home = () => {
       ) : (
         <>
           <h2 className="text-center">
-            Hello <span className="text-primary">{currentUser}</span>, your feed
-            is empty.
+            Hello <strong>{currentUser}</strong>, your feed is empty.
           </h2>
           <p className="lead text-muted text-center">
             Your feed displays the latest posts from the people you follow. If

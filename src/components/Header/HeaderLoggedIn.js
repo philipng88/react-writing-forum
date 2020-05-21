@@ -48,9 +48,9 @@ const HeaderLoggedIn = (props) => {
       >
         <i className="fas fa-comment"></i>
         {Boolean(unreadChatCount) && (
-          <span className="chat-count-badge text-center position-absolute font-weight-normal text-white">
+          <strong className="chat-count-badge text-center position-absolute text-white">
             {unreadChatCount < 10 ? unreadChatCount : "9+"}
-          </span>
+          </strong>
         )}
       </HeaderIcon>
       <ReactTooltip id="chatIcon" place="bottom" />
