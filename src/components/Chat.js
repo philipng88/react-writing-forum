@@ -6,14 +6,13 @@ import io from "socket.io-client";
 import StateContext from "../context/StateContext";
 import DispatchContext from "../context/DispatchContext";
 
-const socket = io("http://localhost:8080");
-
 const Chat = () => {
   const {
     isChatOpen,
     user: { username: currentUser, avatar: currentUserAvatar, token },
   } = useContext(StateContext);
   const appDispatch = useContext(DispatchContext);
+  const socket = useRef(null);
   const chatField = useRef(null);
   const chatLog = useRef(null);
   const [state, setState] = useImmer({
@@ -31,11 +30,13 @@ const Chat = () => {
   }, [isChatOpen]);
 
   useEffect(() => {
-    socket.on("chatFromServer", (message) =>
+    socket.current = io("http://localhost:8080");
+    socket.current.on("chatFromServer", (message) =>
       setState((draft) => {
         draft.chatMessages.push(message);
       })
     );
+    return () => socket.current.disconnect();
   }, []);
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const Chat = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    socket.emit("chatFromBrowser", { message: chatFieldValue, token });
+    socket.current.emit("chatFromBrowser", { message: chatFieldValue, token });
     setState((draft) => {
       draft.chatMessages.push({
         message: draft.chatFieldValue,

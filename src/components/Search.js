@@ -78,7 +78,7 @@ const Search = () => {
   };
 
   return (
-    <div className="search-overlay">
+    <>
       <div className="search-overlay-top shadow-sm">
         <Container className="container--narrow py-3">
           <label htmlFor="live-search-field" className="search-overlay-icon">
@@ -139,7 +139,7 @@ const Search = () => {
           </div>
         </Container>
       </div>
-    </div>
+    </>
   );
 };
 
