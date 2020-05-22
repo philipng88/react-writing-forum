@@ -8,6 +8,7 @@ import Page from "../../components/Page";
 import StateContext from "../../context/StateContext";
 import ProfilePosts from "./ProfilePosts";
 import ProfileFollows from "./ProfileFollows";
+import NotFound from "../../components/NotFound";
 
 const Profile = () => {
   const { username } = useParams();
@@ -16,6 +17,7 @@ const Profile = () => {
     followActionLoading: false,
     startFollowingRequestCount: 0,
     stopFollowingRequestCount: 0,
+    userFound: true,
     profileData: {
       profileUsername: "...",
       profileAvatar: "https://gravatar.com/avatar/placeholder?s=128",
@@ -33,6 +35,7 @@ const Profile = () => {
     followActionLoading,
     startFollowingRequestCount,
     stopFollowingRequestCount,
+    userFound,
     profileData: {
       profileUsername,
       profileAvatar,
@@ -50,9 +53,15 @@ const Profile = () => {
           { token },
           { cancelToken: cancelRequest.token }
         );
-        setState((draft) => {
-          draft.profileData = response.data;
-        });
+        if (response.data) {
+          setState((draft) => {
+            draft.profileData = response.data;
+          });
+        } else {
+          setState((draft) => {
+            draft.userFound = false;
+          });
+        }
       } catch (error) {
         console.log(error.response.data);
       }
@@ -132,7 +141,7 @@ const Profile = () => {
     }
   };
 
-  return (
+  return userFound ? (
     <Page title={profileUsername}>
       <h2>
         <img className="avatar-small" src={profileAvatar} /> {profileUsername}
@@ -165,7 +174,7 @@ const Profile = () => {
             </Button>
           )}
       </h2>
-      <Nav variant="tabs" className="pt-2 mb-4" defaultActiveKey="/posts">
+      <Nav variant="tabs" className="pt-2 mb-4">
         <Nav.Item>
           <NavLink
             exact
@@ -204,6 +213,8 @@ const Profile = () => {
         </Route>
       </Switch>
     </Page>
+  ) : (
+    <NotFound />
   );
 };
 
