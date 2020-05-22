@@ -25,7 +25,7 @@ import Profile from "./pages/Profile/Profile";
 import StateContext from "./context/StateContext";
 import DispatchContext from "./context/DispatchContext";
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = process.env.BACKENDURL;
 
 const Main = () => {
   const initialState = {
