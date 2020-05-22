@@ -47,9 +47,9 @@ const FloatingAlerts = styled.div`
 const FlashMessages = ({ messages }) => {
   return (
     <FloatingAlerts>
-      {messages.map((message, index) => (
+      {messages.map(({ message, messageType }, index) => (
         <Alert
-          variant="success"
+          variant={messageType ? messageType : "primary"}
           className="text-center floating-alert shadow-sm"
           key={index}
         >

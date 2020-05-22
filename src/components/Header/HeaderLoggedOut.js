@@ -28,11 +28,13 @@ const HeaderLoggedOut = () => {
           appDispatch({ type: "login", data: response.data });
           appDispatch({
             type: "flashMessage",
+            messageType: "success",
             value: "Successfully logged in",
           });
         } else {
           appDispatch({
             type: "flashMessage",
+            messageType: "danger",
             value: "Incorrect username and/or password",
           });
         }
@@ -41,6 +43,7 @@ const HeaderLoggedOut = () => {
         setPasswordIsEmpty(false);
         appDispatch({
           type: "flashMessage",
+          messageType: "danger",
           value: "Please enter your username",
         });
       } else if (username && !password) {
@@ -48,6 +51,7 @@ const HeaderLoggedOut = () => {
         setPasswordIsEmpty(true);
         appDispatch({
           type: "flashMessage",
+          messageType: "danger",
           value: "Please enter your password",
         });
       } else {
@@ -55,6 +59,7 @@ const HeaderLoggedOut = () => {
         setPasswordIsEmpty(true);
         appDispatch({
           type: "flashMessage",
+          messageType: "danger",
           value: "Please enter your username and password",
         });
       }

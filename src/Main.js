@@ -51,7 +51,10 @@ const Main = () => {
         draft.loggedIn = false;
         break;
       case "flashMessage":
-        draft.flashMessages.push(action.value);
+        draft.flashMessages.push({
+          message: action.value,
+          messageType: action.messageType,
+        });
         break;
       case "openSearch":
         draft.isSearchOpen = true;
@@ -111,6 +114,7 @@ const Main = () => {
             dispatch({ type: "logout" });
             dispatch({
               type: "flashMessage",
+              messageType: "warning",
               value: "Your token has expired. Please log in again.",
             });
           }

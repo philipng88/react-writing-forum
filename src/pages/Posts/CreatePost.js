@@ -22,7 +22,11 @@ const CreatePost = (props) => {
     event.preventDefault();
     try {
       const response = await axios.post("/create-post", { title, body, token });
-      appDispatch({ type: "flashMessage", value: "Successfully created post" });
+      appDispatch({
+        type: "flashMessage",
+        messageType: "success",
+        value: "Successfully created post",
+      });
       props.history.push(`/post/${response.data}`);
     } catch (error) {
       console.log(error.response.data);

@@ -19,7 +19,11 @@ const HeaderLoggedIn = (props) => {
 
   const handleLogout = () => {
     appDispatch({ type: "logout" });
-    appDispatch({ type: "flashMessage", value: "Successfully logged out" });
+    appDispatch({
+      type: "flashMessage",
+      messageType: "success",
+      value: "Successfully logged out",
+    });
     props.history.push("/");
   };
 

@@ -71,6 +71,7 @@ const ViewSinglePost = (props) => {
         if (response.data == "Success") {
           appDispatch({
             type: "flashMessage",
+            messageType: "success",
             value: "Successfully deleted post",
           });
           props.history.push(`/profile/${currentUser}`);

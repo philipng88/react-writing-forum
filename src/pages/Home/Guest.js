@@ -226,6 +226,7 @@ const HomeGuest = () => {
           appDispatch({ type: "login", data: response.data });
           appDispatch({
             type: "flashMessage",
+            messageType: "success",
             value: "Welcome to your new account!",
           });
         } catch (error) {

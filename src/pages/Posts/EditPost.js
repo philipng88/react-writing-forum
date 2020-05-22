@@ -114,6 +114,7 @@ const EditPost = (props) => {
           if (username != response.data.author.username) {
             appDispatch({
               type: "flashMessage",
+              messageType: "danger",
               value: "You do not have permission to edit that post",
             });
             props.history.push("/");
@@ -143,7 +144,8 @@ const EditPost = (props) => {
           dispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
-            value: "Successfully updated post",
+            messageType: "info",
+            value: "Updated post",
           });
         } catch (error) {
           console.log(error.response.data);
