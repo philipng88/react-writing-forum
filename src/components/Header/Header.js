@@ -5,8 +5,13 @@ import HeaderLoggedOut from "./HeaderLoggedOut";
 import HeaderLoggedIn from "./HeaderLoggedIn";
 import StateContext from "../../context/StateContext";
 
-const Header = () => {
+const Header = (props) => {
   const appState = useContext(StateContext);
+  const headerContent = appState.loggedIn ? (
+    <HeaderLoggedIn />
+  ) : (
+    <HeaderLoggedOut />
+  );
 
   return (
     <header className="bg-primary mb-3">
@@ -21,7 +26,7 @@ const Header = () => {
             The Mighty Pen
           </Link>
         </h4>
-        {appState.loggedIn ? <HeaderLoggedIn /> : <HeaderLoggedOut />}
+        {!props.staticEmpty ? headerContent : ""}
       </Container>
     </header>
   );

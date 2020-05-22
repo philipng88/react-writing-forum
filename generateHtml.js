@@ -1,4 +1,25 @@
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { StaticRouter as Router } from "react-router-dom";
+import fs from "fs";
+import Header from "./src/components/Header/Header";
+import Footer from "./src/components/Footer";
+import LoadingIcon from "./src/components/LoadingIcon";
+import StateContext from "./src/context/StateContext";
 
+const Shell = () => (
+  <StateContext.Provider value={{ loggedIn: false }}>
+    <Router>
+      <Header staticEmpty />
+      <div className="py-5 my-5 text-center">
+        <LoadingIcon />
+      </div>
+      <Footer />
+    </Router>
+  </StateContext.Provider>
+);
+
+const html = (content) => `
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -33,6 +54,14 @@
       <link rel="stylesheet" href="/css/validation.css"/>
     </head>
     <body>
-      <div id="app"><header class="bg-primary mb-3"><div class="d-flex flex-column flex-md-row align-items-center p-3 container"><h4 class="my-0 mr-md-auto font-weight-normal"><a class="text-white text-decoration-none" href="/"><img src="/images/quill.png" alt="Logo" class="align-baseline"/> <!-- -->The Mighty Pen</a></h4></div></header><div class="py-5 my-5 text-center"><div class="sc-AxirZ kQaFUO"><div></div></div></div><footer class="border-top text-center small text-muted py-3"><p><a class="mx-1" href="/">Home</a> <!-- -->|<a class="mx-1" href="/about-us">About Us</a> <!-- -->|<a class="mx-1" href="/terms">Terms</a></p><p class="m-0">Copyright © <!-- -->2020<!-- --> The Mighty Pen. All rights reserved.</p></footer></div>
+      <div id="app">${content}</div>
     </body>
   </html>
+`;
+
+const reactHtml = ReactDOMServer.renderToString(<Shell />);
+const overallHtmlString = html(reactHtml);
+const fileName = "./src/index-template.html";
+const stream = fs.createWriteStream(fileName);
+
+stream.once("open", () => stream.end(overallHtmlString));
